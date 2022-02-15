@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Loading() {
+export default function Spinner() {
   return (
-    <div className="lds-grid">
+    <div className="loading">
       <div></div>
       <div></div>
       <div></div>
