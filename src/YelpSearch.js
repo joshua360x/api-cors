@@ -18,7 +18,7 @@ export default function YelpSearch() {
 
     // put the jsonified data in state and set the loading state to false
     const json = await response.json();
-    console.log('🚀 ~ file: YelpSearch.js ~ line 18 ~ handleYelpSubmit ~ json', json.businesses);
+
     setIsLoading(false);
     setBusinessARR(json.businesses);
   }

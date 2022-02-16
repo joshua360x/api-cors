@@ -18,7 +18,6 @@ export default function PokemonSearch() {
     const response = await fetch(`/.netlify/functions/pokemon?search=${search}`);
 
     const json = await response.json();
-    console.log(json);
 
     // put the jsonified data in state and set the loading state to false
     setIsLoading(false);

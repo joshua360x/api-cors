@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 require('dotenv').config();
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     // grab the city, state, and country from the request's query parameters
     const response = await fetch(
@@ -27,6 +27,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(json),
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     return {
       statusCode: 500,
