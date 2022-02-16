@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   try {
     // grab the pokemon's name from the request's query parameters
     const response = await fetch(
@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     );
     // here is an example from the netlify docs:
     const json = await response.json();
-    console.log('🚀 ~ file: pokemon.js ~ line 11 ~ exports.handler= ~ json', json);
+
     // https://functions.netlify.com/playground/#hello%2C-%7Bname%7D
 
     // consult the pokedex docs
@@ -22,6 +22,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(json.results),
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     return {
       statusCode: 500,
