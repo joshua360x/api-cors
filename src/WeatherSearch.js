@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import Spinner from './Spinner';
 import StatesOption from './StatesOption';
+import Weather from './Weather';
 
 export default function WeatherSearch() {
   // you'll need to track your weather search results, the loading state, and a form field for location with a default value.
   const [isLoading, setIsLoading] = useState(false);
+  const [weather1, setWeather1] = useState({});
   const [formData, setFormData] = useState({
     city: 'portland',
     state: 'or',
     country: 'usa',
   });
 
-  console.log('🚀 ~ file: WeatherSearch.js ~ line 8 ~ WeatherSearch ~ formData', formData);
-  const [weatherARR, setWeatherARR] = useState([]);
+  // const [weatherARR, setWeatherARR] = useState([]);
 
   async function handleWeatherSubmit(e) {
     e.preventDefault();
@@ -21,7 +22,6 @@ export default function WeatherSearch() {
     setIsLoading(true);
     // use fetch to make a request to your netlify weather function. Be sure to pass the location as a query param in the URL
 
-    console.log('form data logged', formData);
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify(formData),
@@ -30,10 +30,20 @@ export default function WeatherSearch() {
     const response = await fetch(`/.netlify/functions/weather`, requestOptions);
 
     const json = await response.json();
-    console.log('🚀 ~ file: WeatherSearch.js ~ line 22 ~ handleWeatherSubmit ~ json', json);
+
+    const latitude = json[0].lat;
+    const longitude = json[0].lon;
+    // console.log('🚀 ~ lat, lon', latitude, longitude);
+
+    const responseWeather = await fetch(
+      `/.netlify/functions/trueWeather?lat=${latitude}&lon=${longitude}`
+    );
+
+    const jsonWeather = await responseWeather.json();
 
     // put the jsonified data in state and set the loading state to false
     setIsLoading(false);
+    setWeather1(jsonWeather);
   }
 
   return (
@@ -53,6 +63,7 @@ export default function WeatherSearch() {
       </form>
       {isLoading && <Spinner />}
       {/* Make a ForecastList component to import and use here. Use a ternery to display a loading spinner (make a <Spinner /> component for this) if the data is still loading. */}
+      <Weather {...weather1} />
     </section>
   );
 }
